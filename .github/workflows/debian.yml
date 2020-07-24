@@ -15,7 +15,7 @@ jobs:
   build:
     strategy:
       matrix:
-        image: [ubuntu:xenial, debian:sid]
+        image: ["ubuntu:xenial", "debian:sid"]
     runs-on: ubuntu-latest
     container:
       image: docker://${{ matrix.image }}
