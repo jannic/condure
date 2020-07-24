@@ -13,17 +13,17 @@ env:
 
 jobs:
   build:
-
-    runs-on: ubuntu-16.04
-
+    runs-on: ubuntu-latest
+    container:
+      image: docker://ubuntu:xenial
     steps:
     - uses: actions/checkout@v2
     - name: diagnostics
       run: apt policy libstdc++6
-    - name: abort
-      run: exit 1
     - name: install dependencies
       run: sudo apt install libzmq3-dev
+    - name: abort
+      run: exit 1
 #    - name: Build
 #      run: cargo build --verbose
 #    - name: Run tests
