@@ -18,6 +18,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: diagnostics
+      run: apt policy libstdc++6
+    - name: abort
+      run: exit 1
     - name: install dependencies
       run: sudo apt install libzmq3-dev
 #    - name: Build
