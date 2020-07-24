@@ -23,7 +23,7 @@ jobs:
     - name: update package list
       run: apt-get update
     - name: install dependencies
-      run: apt-get install libzmq3-dev
+      run: apt-get -y install libzmq3-dev
     - name: abort
       run: exit 1
 #    - name: Build
