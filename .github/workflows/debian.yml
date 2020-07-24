@@ -31,5 +31,5 @@ jobs:
     - name: Upload package
       uses: actions/upload-artifact@v2
       with:
-        name: ubuntu package
+        name: packages
         path: target/debian/condure_*_amd64.deb
