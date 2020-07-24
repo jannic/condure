@@ -23,7 +23,7 @@ jobs:
     - name: update package list
       run: apt-get update
     - name: install dependencies
-      run: apt-get -y install libzmq3-dev cargo
+      run: apt-get -y install libzmq3-dev cargo pkg-config
 #    - name: Build
 #      run: cargo build --verbose
 #    - name: Run tests
