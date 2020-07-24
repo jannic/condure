@@ -18,6 +18,13 @@ jobs:
       image: docker://ubuntu:xenial
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
     - name: diagnostics
       run: apt-cache policy libstdc++6
     - name: update package list
