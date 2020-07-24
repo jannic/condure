@@ -28,4 +28,8 @@ jobs:
       run: cargo install cargo-deb
     - name: Package
       run: cargo deb
-
+    - name: Upload package
+      uses: actions/upload-artifact@v2
+      with:
+        name: ubuntu package
+        path: target/debian/condure_*_amd64.deb
