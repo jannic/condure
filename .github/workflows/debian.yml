@@ -19,9 +19,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: diagnostics
-      run: apt policy libstdc++6
+      run: apt-cache policy libstdc++6
+    - name: update package list
+      run: apt-get update
     - name: install dependencies
-      run: apt install libzmq3-dev
+      run: apt-get install libzmq3-dev
     - name: abort
       run: exit 1
 #    - name: Build
