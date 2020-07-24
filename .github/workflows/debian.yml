@@ -30,10 +30,6 @@ jobs:
       run: apt-get update
     - name: install dependencies
       run: apt-get -y install libzmq3-dev cargo pkg-config
-#    - name: Build
-#      run: cargo build --verbose
-#    - name: Run tests
-#      run: cargo test --verbose
     - name: Install cargo-deb
       run: cargo install cargo-deb
     - name: Package
