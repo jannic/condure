@@ -21,7 +21,7 @@ jobs:
     - name: diagnostics
       run: apt policy libstdc++6
     - name: install dependencies
-      run: sudo apt install libzmq3-dev
+      run: apt install libzmq3-dev
     - name: abort
       run: exit 1
 #    - name: Build
