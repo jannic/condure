@@ -27,6 +27,7 @@ use crate::tnetstring;
 use crate::varlenarray::{VarLenArray64, VarLenStr32};
 use crate::zhttppacket;
 use crate::zhttpsocket;
+use iovec::IoVec;
 use log::{debug, error, info, warn};
 use mio;
 use mio::net::{TcpListener, TcpStream};
@@ -225,18 +226,21 @@ fn send_cancels(
 
 impl WriteVectored for TcpStream {
     fn write_vectored(&mut self, bufs: &[io::IoSlice]) -> Result<usize, io::Error> {
-        // IoVec does not allow 0-byte slices, so initialize using 1 byte
-        let mut arr = [(&b"X"[..]).into(); VECTORED_MAX];
+        let mut arr: [mem::MaybeUninit<&IoVec>; VECTORED_MAX] =
+            unsafe { mem::MaybeUninit::uninit().assume_init() };
+
         let mut arr_len = 0;
 
         for buf in bufs {
             if buf.len() > 0 {
-                arr[arr_len] = buf.as_ref().into();
+                arr[arr_len] = mem::MaybeUninit::new(buf.as_ref().into());
                 arr_len += 1;
             }
         }
 
-        TcpStream::write_bufs(self, &arr[..arr_len])
+        let arr = unsafe { &(mem::transmute::<_, [&IoVec; VECTORED_MAX]>(arr))[..arr_len] };
+
+        TcpStream::write_bufs(self, arr)
     }
 }
 
