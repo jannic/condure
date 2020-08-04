@@ -15,10 +15,10 @@ jobs:
   build:
     strategy:
       matrix:
-        image: ["ubuntu:xenial", "debian:sid"]
+        image: [{"name": "xenial", "id": "ubuntu:xenial"}, {"name": "sid", "id": "debian:sid"}]
     runs-on: ubuntu-latest
     container:
-      image: docker://${{ matrix.image }}
+      image: docker://${{ matrix.image.id }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -26,7 +26,7 @@ jobs:
         path: |
           ~/.cargo/
           target
-        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}-${{ matrix.image }}
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}-${{ matrix.image.id }}
     - name: diagnostics
       run: apt-cache policy libstdc++6
     - name: update package list
@@ -40,5 +40,5 @@ jobs:
     - name: Upload package
       uses: actions/upload-artifact@v2
       with:
-        name: packages-${{matrix.image}}
+        name: packages-${{matrix.image.name}}
         path: target/debian/condure_*_amd64.deb
